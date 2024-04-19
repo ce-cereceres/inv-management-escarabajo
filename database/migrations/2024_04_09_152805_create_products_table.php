@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('category_id')->constrained();
-            $table->decimal('price', total: 2, places: 2);
+            $table->string('name');
+            $table->decimal('price', total: 65, places: 2);
             $table->string('sku');
             $table->string('description');
             $table->timestamps();

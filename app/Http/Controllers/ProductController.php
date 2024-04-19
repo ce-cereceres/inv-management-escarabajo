@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;/*  */
 
 class ProductController extends Controller
 {
@@ -13,6 +15,15 @@ class ProductController extends Controller
     public function index()
     {
         //
+
+        // Get all the products from login user
+        $products = Auth::user()->products;
+
+        return view('products',
+        [
+            // Send list of products to products view
+            'products' => $products,
+        ]);
     }
 
     /**
@@ -21,6 +32,12 @@ class ProductController extends Controller
     public function create()
     {
         //
+        $categories = Category::all();
+        return view('shared.product-edit-form',
+            [
+                'categories' => $categories,
+            ]
+        );
     }
 
     /**
@@ -28,7 +45,46 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // data retrived from product-edit-form.blade.php
+
+
+        $validated = $request->validate([
+            'name' => 'required',
+            'price' => 'required',
+            'sku' => 'required',
+            'description' => 'required',
+            'category_id' => 'required',
+        ]);
+
+        Product::create($validated + ['user_id' => Auth::user()->id]);
+
+        return redirect()->route('products.index')->with('success-message', 'Producto creado con exito');
+        
+        /* 
+        Old functional method
+        
+        request()->validate(
+            [
+            'name' => 'required',
+            'price' => 'required',
+            'sku' => 'required',
+            'description' => 'required',
+            'category_id' => 'required',
+            ]
+        ); 
+
+        Product::create(
+            [
+                'name' => request()->get('name', ''),
+                'price' => request()->get('price', ''),
+                'sku' => request()->get('sku', ''),
+                'description' => request()->get('description', ''),
+                'user_id' => Auth::user()->id,
+                'category_id' => request()->get('category_id', ''),
+            ]
+        ); */
+
+        
     }
 
     /**
