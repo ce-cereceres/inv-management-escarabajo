@@ -18,10 +18,24 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+/* Products */
+// Index
 Route::get('/products', [ProductController::class, 'index'])->middleware(['auth', 'verified'])->name('products.index');
 
+// Create
 Route::get('/products/create', [ProductController::class, 'create'])->middleware(['auth', 'verified'])->name('products.create');
 
+// Store
 Route::post('/products', [ProductController::class, 'store'])->middleware(['auth', 'verified'])->name('products.store');
+
+// Show
+Route::get('/products/{product}', [ProductController::class, 'show'])->middleware(['auth', 'verified'])->name('products.show');
+
+// Edit
+Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->middleware(['auth', 'verified'])->name('products.edit');
+
+// Update
+Route::put('/products/{product}', [ProductController::class, 'update'])->middleware(['auth', 'verified'])->name('products.update');
+
 
 require __DIR__.'/auth.php';

@@ -32,7 +32,11 @@ class ProductController extends Controller
     public function create()
     {
         //
+
+        //Fetch all the categories
         $categories = Category::all();
+
+        //Return the Form view
         return view('shared.product-edit-form',
             [
                 'categories' => $categories,
@@ -93,6 +97,12 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         //
+
+        return view('products-details',
+            [
+                'product'=>$product,
+            ]
+        );
     }
 
     /**
@@ -101,6 +111,17 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         //
+        $editing = true;
+        $categories = Category::all();
+        
+        return view('products-details',
+            [
+                'product'=>$product,
+                'editing'=>$editing,
+                'categories' => $categories,
+
+            ]
+        );
     }
 
     /**
@@ -109,6 +130,27 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         //
+
+        $validated = $request->validate([
+            'name' => 'required',
+            'price' => 'required',
+            'sku' => 'required',
+            'description' => 'required',
+            'category_id' => 'required',
+        ]);
+
+        dump($validated);
+        dump($product);
+
+        $product->name = $validated["name"];
+        $product->price = $validated["price"];
+        $product->sku = $validated["sku"];
+        $product->description = $validated["description"];
+        $product->category_id = $validated["category_id"];
+
+        $product->save();
+
+        return redirect()->route('products.index')->with('success-message', 'Producto actualizado con exito');
     }
 
     /**

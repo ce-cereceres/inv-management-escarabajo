@@ -1,4 +1,5 @@
 {{-- retrive data from ProductController method index --}}
+{{-- list of all products from loged user as $products --}}
 
 <x-app-layout>
     <x-slot name="header">
@@ -44,7 +45,13 @@
                         <td class="px-6 py-4">{{$product->sku}}</td>
                         <td class="px-6 py-4">{{$product->description}}</td>
                         <td class="px-6 py-4">{{$product->category_id}}</td>
-                        <td class="px-6 py-4">{{'Aqui va la accion'}}</td>
+                        <td class="px-6 py-4">
+                            <a href="{{route('products.show', $product->id)}}">Ver</a>
+                            <a href="{{route('products.edit', $product->id)}}">Editar</a>
+                            <a href="{{route('products.index', $product->id)}}">Delete</a> {{-- TODO --}}
+                        
+                        
+                        </td>
                     </tr>               
                 @endforeach
             </tbody>            

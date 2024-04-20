@@ -15,7 +15,7 @@
                 <div class="p-6 text-gray-900">
                     <form action="{{route('products.store')}}" method="POST">
                         @csrf
-                        <input type="text" name="name" id="sku" placeholder="Nombre del producto">
+                        <input type="text" name="name" id="name" placeholder="Nombre del producto">
                         <br>
                         <input type="number" name="price" id="price" placeholder="Precio">
                         <br>
