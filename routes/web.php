@@ -37,5 +37,7 @@ Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->midd
 // Update
 Route::put('/products/{product}', [ProductController::class, 'update'])->middleware(['auth', 'verified'])->name('products.update');
 
+// Destroy
+Route::delete('/products/{product}', [ProductController::class, 'destroy'])->middleware(['auth', 'verified'])->name('products.destroy');
 
 require __DIR__.'/auth.php';

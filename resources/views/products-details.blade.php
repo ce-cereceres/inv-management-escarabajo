@@ -45,6 +45,7 @@
                     {{-- If $edit is false show the product details (read-only) --}}
                     @else
                         @dump($product)
+                        
                     @endif
                     
 

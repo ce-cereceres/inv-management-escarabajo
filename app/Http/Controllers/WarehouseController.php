@@ -13,6 +13,15 @@ class WarehouseController extends Controller
     public function index()
     {
         //
+
+        // Get all the warehouses from login user
+        /* $warehouses = Auth::user()->products; */
+
+        return view('products',
+        [
+            // Send list of products to products view
+            /* 'products' => $products, */
+        ]);
     }
 
     /**

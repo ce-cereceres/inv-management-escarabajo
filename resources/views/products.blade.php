@@ -38,17 +38,22 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($products as $product)
+                @foreach ($products as $product)        
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$product->name}}</th>
                         <td class="px-6 py-4">{{$product->price}}</td>
                         <td class="px-6 py-4">{{$product->sku}}</td>
                         <td class="px-6 py-4">{{$product->description}}</td>
-                        <td class="px-6 py-4">{{$product->category_id}}</td>
+                        <td class="px-6 py-4">{{$product->category->name}}</td>
                         <td class="px-6 py-4">
                             <a href="{{route('products.show', $product->id)}}">Ver</a>
                             <a href="{{route('products.edit', $product->id)}}">Editar</a>
-                            <a href="{{route('products.index', $product->id)}}">Delete</a> {{-- TODO --}}
+                            {{-- <a href="{{route('products.destroy', $product->id)}}">Delete</a> --}}
+                            <form action="{{route('products.destroy', $product->id)}}" method="POST">
+                                @csrf
+                                @method('delete')
+                                <button>Eliminar</button>
+                            </form>
                         
                         
                         </td>

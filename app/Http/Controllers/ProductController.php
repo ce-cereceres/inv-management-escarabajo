@@ -139,8 +139,6 @@ class ProductController extends Controller
             'category_id' => 'required',
         ]);
 
-        dump($validated);
-        dump($product);
 
         $product->name = $validated["name"];
         $product->price = $validated["price"];
@@ -159,5 +157,9 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         //
+
+        $product->delete();
+
+        return redirect()->route('products.index')->with('success-message', 'Producto eliminado con exito');
     }
 }
