@@ -36,10 +36,15 @@ class ProductController extends Controller
         //Fetch all the categories
         $categories = Category::all();
 
+        // Fetch all the warehouses from login user
+        $warehouses = Auth::user()->warehouses;
+
         //Return the Form view
         return view('shared.product-edit-form',
             [
+                /* Send lists from categories and warehouses */
                 'categories' => $categories,
+                'warehouses' => $warehouses,
             ]
         );
     }

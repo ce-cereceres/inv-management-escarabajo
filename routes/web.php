@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\WarehouseController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -39,5 +40,18 @@ Route::put('/products/{product}', [ProductController::class, 'update'])->middlew
 
 // Destroy
 Route::delete('/products/{product}', [ProductController::class, 'destroy'])->middleware(['auth', 'verified'])->name('products.destroy');
+
+
+/* Warehouses */
+// Index
+Route::get('/warehouses', [WarehouseController::class, 'index'])->middleware(['auth', 'verified'])->name('warehouses.index');
+
+// Create
+Route::get('/warehouses/create', [WarehouseController::class, 'create'])->middleware(['auth', 'verified'])->name('warehouses.create');
+
+// Store
+Route::post('/warehouses', [WarehouseController::class, 'store'])->middleware(['auth', 'verified'])->name('warehouses.store');
+
+
 
 require __DIR__.'/auth.php';

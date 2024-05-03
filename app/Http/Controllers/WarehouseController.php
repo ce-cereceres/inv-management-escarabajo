@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class WarehouseController extends Controller
 {
@@ -15,12 +16,12 @@ class WarehouseController extends Controller
         //
 
         // Get all the warehouses from login user
-        /* $warehouses = Auth::user()->products; */
+        $warehouses = Auth::user()->warehouses;
 
-        return view('products',
+        return view('warehouses',
         [
             // Send list of products to products view
-            /* 'products' => $products, */
+            'warehouses' => $warehouses,
         ]);
     }
 
@@ -30,6 +31,13 @@ class WarehouseController extends Controller
     public function create()
     {
         //
+
+        //Return the Form view
+        return view('shared.warehouse-edit-form',
+            [
+
+            ]
+        );
     }
 
     /**
@@ -37,7 +45,19 @@ class WarehouseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // data retrived from warehouse-edit-form.blade.php
+
+
+        $validated = $request->validate([
+            'name' => 'required',
+            'street' => 'required',
+            'streetNumber' => 'required',
+            'zipCode' => 'required',
+        ]);
+
+        Warehouse::create($validated + ['user_id' => Auth::user()->id] + ['contact_id' => 1]); /* 'contact_id' HARDCODED!!! */
+
+        return redirect()->route('warehouses.index')->with('success-message', 'Almacén creado con exito');
     }
 
     /**

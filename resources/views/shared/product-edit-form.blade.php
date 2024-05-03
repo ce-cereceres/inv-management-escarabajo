@@ -1,3 +1,5 @@
+{{-- Get data from ProductController method create
+    $categories & $warehouses --}}
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -28,7 +30,17 @@
                                 <option value="{{$category->id}}">{{$category->name}}</option>
                             @endforeach
                         </select>
-                        
+                        <br>
+                        <br>
+                        <h1>STOCKS!!!</h1>
+
+                        {{-- Lista de almacenes --}}
+                        @foreach ($warehouses as $warehouse)
+                            {{$warehouse->name}}
+                            <input type="number" name="" id="" placeholder="0" min="0" oninput="validity.valid||(value='');">
+                            <br>
+                        @endforeach
+                        {{-- Cantidad --}}
                         <br>
                         <button type="submit">Crear</button>
                     </form>
