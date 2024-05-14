@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Stock;
@@ -53,45 +54,10 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
         // data retrived from product-edit-form.blade.php
 
-        // Fetch all the warehouses from login user
-        $warehouses = Auth::user()->warehouses;
-
-        // Form rules
-        $rules = [
-            'name' => 'required',
-            'price' => 'required',
-            'sku' => 'required',
-            'description' => 'required',
-            'category_id' => 'required',
-        ];
-
-        // Wrehouses
-        $listWarehouses = [];
-
-        // Dynamic rules from warehouses
-        foreach ($warehouses as $warehouse) {
-
-            $rules['warehouse_' . $warehouse->id] = 'required';
-            $listWarehouses['warehouse_' . $warehouse->id];
-        }
-
-        // Validate
-        $validated = $request->validate($rules);
-
-
-        /* Working rules method
-
-        $validated = $request->validate([
-            'name' => 'required',
-            'price' => 'required',
-            'sku' => 'required',
-            'description' => 'required',
-            'category_id' => 'required',
-        ]); */
 
         /* Working Create method
         
@@ -104,12 +70,17 @@ class ProductController extends Controller
             'user_id' => Auth::user()->id,
         ]); */
 
-        $newProduct = $this->saveProduct($validated);
+        
+        dump($request);
+        
+        
+        
+        /* $newProduct = $this->saveProduct($validated);
 
         $this->saveStock($listWarehouses, $newProduct);
 
 
-        return redirect()->route('products.index')->with('success-message', 'Producto creado con exito');
+        return redirect()->route('products.index')->with('success-message', 'Producto creado con exito'); */
 
         
     }
