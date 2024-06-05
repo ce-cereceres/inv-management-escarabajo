@@ -58,7 +58,6 @@ class ProductController extends Controller
     {
         // data retrived from product-edit-form.blade.php
 
-
         /* Working Create method
         
         Product::create([
@@ -70,17 +69,27 @@ class ProductController extends Controller
             'user_id' => Auth::user()->id,
         ]); */
 
-        
-        dump($request->all());
-        
-        
-        
-        /* $newProduct = $this->saveProduct($validated);
+        $productInfo = $request->safe()->except(['warehouse']);
+        $warehousesInfo = $request->safe()->only(['warehouse']);
 
-        $this->saveStock($listWarehouses, $newProduct);
+        /* $product = new Product();
+        $product->name = $productInfo['name'];
+        $product->price = $productInfo['price'];
+        $product->sku = $productInfo['sku'];
+        $product->description = $productInfo['description'];
+        $product->category_id = $productInfo['category_id'];
+        $product->user_id = Auth::user()->id;
+        $product->save();
+
+        $product->warehouses()->attach($warehousesInfo['warehouse']); */
 
 
-        return redirect()->route('products.index')->with('success-message', 'Producto creado con exito'); */
+
+        
+
+
+
+        /* return redirect()->route('products.index')->with('success-message', 'Producto creado con exito'); */
 
         
     }
