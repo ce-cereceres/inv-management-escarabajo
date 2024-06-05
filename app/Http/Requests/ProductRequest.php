@@ -27,6 +27,19 @@ class ProductRequest extends FormRequest
         // Fetch all the warehouses from login user
         $warehouses = Auth::user()->warehouses;
 
+        // Get individual elements from collection $warehouses
+        foreach ($warehouses as $warehouse) {
+            // Create an array with all warehouses from useers to use in validation
+            
+
+            $warehouseArrValidation[] = $warehouse->id;
+
+            
+        }
+
+        // List to all warehouses string
+        $warehouseList = implode(",", $warehouseArrValidation);
+        
         // Rules
         $rules = [
             'name' => 'required',
@@ -34,13 +47,9 @@ class ProductRequest extends FormRequest
             'sku' => 'required',
             'description' => 'required',
             'category_id' => 'required',
+            'warehouse' => 'required',
+            'warehouse.*' => 'required|in:'.$warehouseList,
         ];
-
-
-        // Dynamic rules from warehouses
-        foreach ($warehouses as $warehouse) {
-            $rules['warehouse_' . $warehouse->id] = 'required';
-        }
 
 
         return $rules;
