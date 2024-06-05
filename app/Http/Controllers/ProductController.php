@@ -71,7 +71,7 @@ class ProductController extends Controller
         ]); */
 
         
-        dump($request);
+        dump($request->all());
         
         
         
