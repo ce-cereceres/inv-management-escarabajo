@@ -134,8 +134,6 @@ class ProductController extends Controller
                 'product'=>$product,
                 'editing'=>$editing,
                 'categories' => $categories,
-                'warehouses' => $warehouses,
-
             ]
         );
     }
