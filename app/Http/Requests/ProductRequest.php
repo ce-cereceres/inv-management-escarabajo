@@ -23,25 +23,9 @@ class ProductRequest extends FormRequest
      */
     public function rules(): array
     {
-
-
-        // Fetch all the warehouses from login user
-        $warehouses = Auth::user()->warehouses;
         $loggedInUserId = Auth::user()->id;
 
-        // Get individual elements from collection $warehouses
-        foreach ($warehouses as $warehouse) {
-            // Create an array with all warehouses from useers to use in validation
-            
-
-            $warehouseArrValidation[] = $warehouse->id;
-
-            
-        }
-
-        // List to all warehouses string
-        $warehouseList = implode(",", $warehouseArrValidation);
-        
+      
         // Rules
         $rules = [
             'name' => 'required',
@@ -58,8 +42,6 @@ class ProductRequest extends FormRequest
             ],
             'warehouse.*.quantityAvailable' => 'required',
         ];
-
-        /* dump($rules); */
 
 
         return $rules;
