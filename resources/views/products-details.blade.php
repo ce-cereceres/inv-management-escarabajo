@@ -19,7 +19,7 @@
 
                     {{-- If $edit is true show the product edit form --}}
                     @if ($editing ?? false)
-                        @dump($product)
+                        @dump($product->warehouses)
                         @dump($categories)
 
                         <form action="{{route('products.update', $product->id)}}" method="POST">
@@ -40,8 +40,22 @@
                             </select>
                             
                             <br>
-                            <button type="submit">Editar</button>
+                            <br>
+                            <h1>STOCKS!!!</h1>
 
+                            {{-- Warehouse --}}
+                            @foreach ($product->warehouses as $warehouse)
+                                {{$warehouse->name}}
+
+                                <input type="hidden" name="warehouse[{{$warehouse->id}}][id]" value="{{$warehouse->id}}">
+                                
+                                <input type="number" name="warehouse[{{$warehouse->id}}][quantityAvailable]" id="warehouse[{{$warehouse->id}}]" placeholder="0" min="0" oninput="validity.valid||(value='');" value="{{$warehouse->pivot->quantityAvailable}}">
+                                <br>
+                            @endforeach
+                            
+                            <br>
+                            <button type="submit">Crear</button>
+                        </form>
                     {{-- If $edit is false show the product details (read-only) --}}
                     @else
                         @dump($product)
@@ -53,8 +67,6 @@
             </div>
         </div>
     </div>
-
-    
 
     
 </x-app-layout>
