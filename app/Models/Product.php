@@ -36,6 +36,6 @@ class Product extends Model
 
     public function warehouses(): BelongsToMany
     {
-        return $this->belongsToMany(Warehouse::class);
+        return $this->belongsToMany(Warehouse::class)->withPivot('quantityAvailable','minimumStockLevel','maximumStockLevel','reoredPoint')->withTimestamps(); /* TODO */
     }
 }

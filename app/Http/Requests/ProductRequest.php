@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class ProductRequest extends FormRequest
 {
@@ -26,6 +27,7 @@ class ProductRequest extends FormRequest
 
         // Fetch all the warehouses from login user
         $warehouses = Auth::user()->warehouses;
+        $loggedInUserId = Auth::user()->id;
 
         // Get individual elements from collection $warehouses
         foreach ($warehouses as $warehouse) {
@@ -48,8 +50,16 @@ class ProductRequest extends FormRequest
             'description' => 'required',
             'category_id' => 'required',
             'warehouse' => 'required',
-            'warehouse.*' => 'required|in:'.$warehouseList,
+            'warehouse.*.id' => [
+                'required',
+                Rule::exists('warehouses')->where(function ($query) use ($loggedInUserId){
+                    $query->where('user_id', $loggedInUserId);
+                }),
+            ],
+            'warehouse.*.quantityAvailable' => 'required',
         ];
+
+        /* dump($rules); */
 
 
         return $rules;

@@ -58,21 +58,33 @@ class ProductController extends Controller
     {
         // data retrived from product-edit-form.blade.php
 
-        /* Working Create method
-        
-        Product::create([
-            'name' => $validated['name'],
-            'price' => $validated['price'],
-            'sku' => $validated['sku'],
-            'description' => $validated['description'],
-            'category_id' => $validated['category_id'],
-            'user_id' => Auth::user()->id,
-        ]); */
 
+        // Information about product details
         $productInfo = $request->safe()->except(['warehouse']);
-        $warehousesInfo = $request->safe()->only(['warehouse']);
 
-        /* $product = new Product();
+        // Information about warehouse store details
+        $warehousesArray = $request->safe()->only(['warehouse']);
+
+        
+        // Obtain array from warehouse
+        $warehousesData = $warehousesArray['warehouse'];
+
+        // initialize array
+        $dataToAttach = array();
+
+        // Assign data to array
+        foreach ($warehousesData as $warehouseInfo) {
+            $dataToAttach[] = [
+                'warehouse_id'=>$warehouseInfo['id'], // ID warehouse
+                'quantityAvailable'=>$warehouseInfo['quantityAvailable'],
+                'minimumStockLevel'=>0,
+                'maximumStockLevel'=>0,
+                'reoredPoint'=>0,
+            ];
+        }
+        
+        // Create new product
+        $product = new Product();
         $product->name = $productInfo['name'];
         $product->price = $productInfo['price'];
         $product->sku = $productInfo['sku'];
@@ -81,44 +93,15 @@ class ProductController extends Controller
         $product->user_id = Auth::user()->id;
         $product->save();
 
-        $product->warehouses()->attach($warehousesInfo['warehouse']); */
+        // Create pivot table product_warehouse
+        $product->warehouses()->attach($dataToAttach);
 
-
-
-        
-
-
-
-        /* return redirect()->route('products.index')->with('success-message', 'Producto creado con exito'); */
+        // redirect
+        return redirect()->route('products.index')->with('success-message', 'Producto creado con exito');
 
         
     }
 
-    private function saveProduct($validated)
-    {
-        $product = new Product;
-        $product->name = $validated['name'];
-        $product->price = $validated['price'];
-        $product->sku = $validated['sku'];
-        $product->description = $validated['description'];
-        $product->category_id = $validated['category_id'];
-        $product->user_id = Auth::user()->id;
-
-        $product->save();
-
-        return $product->id;
-
-
-    }
-
-    private function saveStock($listWarehouses, $newProduct_id)
-    {
-        foreach ($listWarehouses as $warehouse) {
-            $stock = new Stock;
-            $stock->product_id = $newProduct_id;
-            $stock->warehouse_id;
-        }
-    }
 
     /**
      * Display the specified resource.
@@ -142,12 +125,16 @@ class ProductController extends Controller
         //
         $editing = true;
         $categories = Category::all();
+
+        // Fetch all the warehouses from login user
+        $warehouses = Auth::user()->warehouses;
         
         return view('products-details',
             [
                 'product'=>$product,
                 'editing'=>$editing,
                 'categories' => $categories,
+                'warehouses' => $warehouses,
 
             ]
         );

@@ -37,7 +37,8 @@
                         {{-- Lista de almacenes --}}
                         @foreach ($warehouses as $warehouse)
                             {{$warehouse->name}}
-                            <input type="number" name="warehouse[{{$warehouse->id}}]" id="warehouse[{{$warehouse->id}}]" placeholder="0" min="0" oninput="validity.valid||(value='');">
+                            <input type="hidden" name="warehouse[{{$warehouse->id}}][id]" value="{{$warehouse->id}}">
+                            <input type="number" name="warehouse[{{$warehouse->id}}][quantityAvailable]" id="warehouse[{{$warehouse->id}}]" placeholder="0" min="0" oninput="validity.valid||(value='');">
                             <br>
                         @endforeach
                         {{-- Cantidad --}}
