@@ -33,8 +33,8 @@ class ProductRequest extends FormRequest
             'sku' => 'required',
             'description' => 'required',
             'category_id' => 'required',
-            'warehouse' => 'required',
-            'warehouse.*.id' => [
+            'warehouses' => 'required',
+            'warehouses.*.id' => [
                 'required',
                 Rule::exists('warehouses')->where(function ($query) use ($loggedInUserId){
                     $query->where('user_id', $loggedInUserId);
