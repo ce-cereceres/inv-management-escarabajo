@@ -38,4 +38,16 @@ class Product extends Model
     {
         return $this->belongsToMany(Warehouse::class)->withPivot('quantityAvailable','minimumStockLevel','maximumStockLevel','reoredPoint')->withTimestamps(); /* TODO */
     }
+
+    /*  TEST METHOD RETRIVE ONLY SPECIFIED DATA
+    public function getWarehousesWithQuantityAttribute()
+    {
+        $warehouses = [];
+        foreach ($this->warehouses as $warehouse) {
+            $warehouses[] = [
+                'quantityAvailable' => $warehouse->quantityAvailable,
+            ];
+        }
+        return $warehouses;
+    } */
 }
