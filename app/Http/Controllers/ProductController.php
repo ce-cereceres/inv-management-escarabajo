@@ -60,28 +60,31 @@ class ProductController extends Controller
 
 
         // Information about product details
-        $productInfo = $request->safe()->except(['warehouse']);
+        $productInfo = $request->safe()->except(['warehouses']);
 
         // Information about warehouse store details
-        $warehousesArray = $request->safe()->only(['warehouse']);
+        $warehousesArray = $request->safe()->only(['warehouses']);
 
         
         // Obtain array from warehouse
-        $warehousesData = $warehousesArray['warehouse'];
+        $warehousesData = $warehousesArray['warehouses'];
 
         // initialize array
         $dataToAttach = array();
 
         // Assign data to array
         foreach ($warehousesData as $warehouseInfo) {
-            $dataToAttach[] = [
-                'warehouse_id'=>$warehouseInfo['id'], // ID warehouse
-                'quantityAvailable'=>$warehouseInfo['quantityAvailable'],
-                'minimumStockLevel'=>0,
-                'maximumStockLevel'=>0,
-                'reoredPoint'=>0,
+
+            $dataToAttach[$warehouseInfo['id']] = [ 
+                    'quantityAvailable'=>$warehouseInfo['quantityAvailable'],
+                    'minimumStockLevel'=>0,
+                    'maximumStockLevel'=>0,
+                    'reoredPoint'=>0,
+                
             ];
         }
+
+        /* dump($dataToAttach); */
         
         // Create new product
         $product = new Product();
@@ -91,7 +94,7 @@ class ProductController extends Controller
         $product->description = $productInfo['description'];
         $product->category_id = $productInfo['category_id'];
         $product->user_id = Auth::user()->id;
-        $product->save();
+        $product->save(); 
 
         // Create pivot table product_warehouse
         $product->warehouses()->attach($dataToAttach);
@@ -141,28 +144,46 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
-        //
+        // Product Details
+        $productInfo = $request->safe()->except(['warehouses']);
 
-        $validated = $request->validate([
-            'name' => 'required',
-            'price' => 'required',
-            'sku' => 'required',
-            'description' => 'required',
-            'category_id' => 'required',
-        ]);
+        // Warehouse inventory details
+        $warehousesArray = $request->safe()->only(['warehouses']);
+
+        
+        // Obtain array from warehouse
+        $warehousesData = $warehousesArray['warehouses'];
+
+        // initialize array
+        $dataToAttach = array();
+
+        // Assign data to array
+        foreach ($warehousesData as $warehouseInfo) {
+
+            $dataToAttach[$warehouseInfo['id']] = [ 
+                    'quantityAvailable'=>$warehouseInfo['quantityAvailable'],
+                    'minimumStockLevel'=>0,
+                    'maximumStockLevel'=>0,
+                    'reoredPoint'=>0,
+                
+            ];
+        }
 
 
-        $product->name = $validated["name"];
-        $product->price = $validated["price"];
-        $product->sku = $validated["sku"];
-        $product->description = $validated["description"];
-        $product->category_id = $validated["category_id"];
+        $product->name = $productInfo['name'];
+        $product->price = $productInfo['price'];
+        $product->sku = $productInfo['sku'];
+        $product->description = $productInfo['description'];
+        $product->category_id = $productInfo['category_id'];
 
         $product->save();
 
+        $product->warehouses()->sync($dataToAttach);
+
         return redirect()->route('products.index')->with('success-message', 'Producto actualizado con exito');
+
     }
 
     /**
@@ -172,8 +193,13 @@ class ProductController extends Controller
     {
         //
 
+        // Delete warehouses inventory data
+        $product->warehouses()->detach();
+
+        // Delete product data
         $product->delete();
 
+        // Redirect
         return redirect()->route('products.index')->with('success-message', 'Producto eliminado con exito');
     }
 }
