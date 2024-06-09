@@ -36,18 +36,11 @@ class Product extends Model
 
     public function warehouses(): BelongsToMany
     {
-        return $this->belongsToMany(Warehouse::class)->withPivot('quantityAvailable','minimumStockLevel','maximumStockLevel','reoredPoint')->withTimestamps(); /* TODO */
+        return $this->belongsToMany(Warehouse::class)->withPivot('quantityAvailable','minimumStockLevel','maximumStockLevel','reoredPoint')->withTimestamps();
     }
 
-    /*  TEST METHOD RETRIVE ONLY SPECIFIED DATA
-    public function getWarehousesWithQuantityAttribute()
+    public function transfers(): BelongsToMany
     {
-        $warehouses = [];
-        foreach ($this->warehouses as $warehouse) {
-            $warehouses[] = [
-                'quantityAvailable' => $warehouse->quantityAvailable,
-            ];
-        }
-        return $warehouses;
-    } */
+        return $this->belongsToMany(Transfer::class)->withPivot('quantity')->withTimestamps();
+    }
 }
