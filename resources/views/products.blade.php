@@ -39,16 +39,24 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($products as $product)        
+                @foreach ($products as $product)
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$product->name}}</th>
-                        <td class="px-6 py-4">{{$product->price}}</td>
-                        <td class="px-6 py-4">@dump($product->warehouses)</td>
-                        <td class="px-6 py-4">{{$product->sku}}</td>
-                        <td class="px-6 py-4">{{$product->description}}</td>
-                        <td class="px-6 py-4">{{$product->category->name}}</td>
+                        {{-- sum quantityAvailable --}}
                         <td class="px-6 py-4">
-                            <a href="{{route('products.show', $product->id)}}">Ver</a>
+                            {{$product->warehouses->sum('pivot.quantityAvailable')}}
+                        </td>
+                        {{-- Price --}}
+                        <td class="px-6 py-4">{{$product->price}}</td>
+                        {{-- SKU --}}
+                        <td class="px-6 py-4">{{$product->sku}}</td>
+                        {{-- Description --}}
+                        <td class="px-6 py-4">{{$product->description}}</td>
+                        {{-- Category Name --}}
+                        <td class="px-6 py-4">{{$product->category->name}}</td>
+
+                        {{-- Actions --}}
+                        <td class="px-6 py-4">
                             <a href="{{route('products.edit', $product->id)}}">Editar</a>
                             {{-- <a href="{{route('products.destroy', $product->id)}}">Delete</a> --}}
                             <form action="{{route('products.destroy', $product->id)}}" method="POST">
