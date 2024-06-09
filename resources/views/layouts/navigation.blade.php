@@ -11,21 +11,32 @@
                 </div>
 
                 <!-- Navigation Links -->
+
+                <!-- Dashboard -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
 
+                <!-- Products -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.index')">
                         {{ __('Productos') }}
                     </x-nav-link>
                 </div>
 
+                <!-- Warehouses -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('warehouses.index')" :active="request()->routeIs('warehouses.index')">
                         {{ __('Almacenes') }}
+                    </x-nav-link>
+                </div>
+
+                <!-- Transfers -->
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('transfers.index')" :active="request()->routeIs('transfers.index')">
+                        {{ __('Transferencias') }}
                     </x-nav-link>
                 </div>
             </div>
