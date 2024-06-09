@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('source_warehouse_id');
             $table->unsignedBigInteger('destination_warehouse_id');
             $table->date('sentDate');
-            $table->date('receivedDate');
+            $table->date('receivedDate')->nullable();
             $table->enum('status', ['iniciado', 'enviado', 'recibido', 'cancelado'])->default('iniciado');
             $table->timestamps();
 
