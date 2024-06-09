@@ -13,7 +13,18 @@ return new class extends Migration
     {
         Schema::create('transfers', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('source_warehouse_id');
+            $table->unsignedBigInteger('destination_warehouse_id');
+            $table->date('sentDate');
+            $table->date('receivedDate');
+            $table->enum('status', ['iniciado', 'enviado', 'recibido', 'cancelado'])->default('iniciado');
             $table->timestamps();
+
+            $table->foreign('source_warehouse_id')->references('id')
+                ->on('warehouses')->onDelete('cascade');
+
+            $table->foreign('destination_warehouse_id')->references('id')
+                ->on('warehouses')->onDelete('cascade');
         });
     }
 
