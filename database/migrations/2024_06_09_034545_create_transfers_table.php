@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('source_warehouse_id');
             $table->unsignedBigInteger('destination_warehouse_id');
+            $table->unsignedBigInteger('user_id');
             $table->date('sentDate');
             $table->date('receivedDate')->nullable();
             $table->enum('status', ['iniciado', 'enviado', 'recibido', 'cancelado'])->default('iniciado');
@@ -25,6 +26,9 @@ return new class extends Migration
 
             $table->foreign('destination_warehouse_id')->references('id')
                 ->on('warehouses')->onDelete('cascade');
+
+            $table->foreign('user_id')->references('id')
+                ->on('users')->onDelete('cascade');
         });
     }
 

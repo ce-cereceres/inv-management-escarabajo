@@ -13,13 +13,15 @@ return new class extends Migration
     {
         Schema::create('warehouses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
-            $table->foreignId('contact_id');
+            $table->unsignedBigInteger('user_id');
             $table->string('name');
             $table->string('street');
             $table->unsignedSmallInteger('streetNumber');
             $table->string('zipCode');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')
+                ->on('users')->onDelete('cascade');
         });
     }
 
