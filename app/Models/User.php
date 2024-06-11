@@ -55,4 +55,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Warehouse::class);
     }
+
+    public function transfers(): HasMany
+    {
+        return $this->hasMany(Transfer::class);
+    }
 }

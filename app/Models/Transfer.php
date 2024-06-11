@@ -25,4 +25,9 @@ class Transfer extends Model
     {
         return $this->belongsToMany(Product::class)->withPivot('quantity')->withTimestamps();
     }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }
