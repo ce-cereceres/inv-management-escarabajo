@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\DB;
 
 class Product extends Model
 {
@@ -42,5 +43,22 @@ class Product extends Model
     public function transfers(): BelongsToMany
     {
         return $this->belongsToMany(Transfer::class)->withPivot('quantity')->withTimestamps();
+    }
+
+    public function getTransferData($product_id, $warehouse_id)
+    {
+        $table = 'product_warehouse'; // Replace with your actual table name
+
+
+        $data = DB::table($table)
+            ->where('product_id', $product_id)
+            ->where('warehouse_id', $warehouse_id)
+        ->get();
+
+        foreach ($data as $value) {
+            $tr = $value->quantityAvailable;
+        }
+        
+        return $tr;
     }
 }
