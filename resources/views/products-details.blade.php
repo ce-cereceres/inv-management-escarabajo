@@ -19,8 +19,6 @@
 
                     {{-- If $edit is true show the product edit form --}}
                     @if ($editing ?? false)
-                        @dump($product->warehouses)
-                        @dump($categories)
 
                         <form action="{{route('products.update', $product->id)}}" method="POST">
                             @csrf

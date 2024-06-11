@@ -6,6 +6,7 @@
     </x-slot>
 
     <div class="py-12">
+        @include('shared.generic-notification')
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
@@ -18,6 +19,39 @@
                         </button>
                     </a>
                 </div>
+            </div>
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">Traspaso</th>
+                            <th scope="col" class="px-6 py-3">Origen</th>
+                            <th scope="col" class="px-6 py-3">Destino</th>
+                            <th scope="col" class="px-6 py-3">Estado</th>
+                            <th scope="col" class="px-6 py-3">Discrepancias</th>
+                            <th scope="col" class="px-6 py-3">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($transfers as $transfer)        
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$transfer->id}}</th>
+                                <td class="px-6 py-4">{{$transfer->source_warehouse_id}}</td>
+                                <td class="px-6 py-4">{{$transfer->destination_warehouse_id}}</td>
+                                <td class="px-6 py-4">{{$transfer->status}}</td>
+                                <td class="px-6 py-4">{{'Discrepancias'}}</td>
+                                <td class="px-6 py-4">
+                                    <a href="{{route('transfers.show', $transfer->id)}}">
+                                        Ver
+                                    </a>
+                                
+                                
+                                </td>
+                            </tr>               
+                        @endforeach
+                    </tbody>            
+                    
+                </table>
             </div>
         </div>
     </div>
