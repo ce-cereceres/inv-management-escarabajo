@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TransferController;
 use App\Http\Controllers\WarehouseController;
 use Illuminate\Support\Facades\Route;
 
@@ -51,6 +52,23 @@ Route::get('/warehouses/create', [WarehouseController::class, 'create'])->middle
 
 // Store
 Route::post('/warehouses', [WarehouseController::class, 'store'])->middleware(['auth', 'verified'])->name('warehouses.store');
+
+
+/* Transfers */
+// Index
+Route::get('/transfers', [TransferController::class, 'index'])->middleware(['auth', 'verified'])->name('transfers.index');
+
+// Create
+Route::get('/transfers/create', [TransferController::class, 'create'])->middleware(['auth', 'verified'])->name('transfers.create');
+
+// Store
+Route::post('/transfers', [TransferController::class, 'store'])->middleware(['auth', 'verified'])->name('transfers.store');
+
+// Show
+Route::get('/transfers/{transfer}', [TransferController::class, 'show'])->middleware(['auth', 'verified'])->name('transfers.show');
+
+// Confirm
+Route::put('/transfers/{transfer}', [TransferController::class, 'confirmTransfer'])->middleware(['auth', 'verified'])->name('transfers.confirm');
 
 
 
