@@ -36,8 +36,8 @@
                         @foreach ($transfers as $transfer)        
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$transfer->id}}</th>
-                                <td class="px-6 py-4">{{$transfer->source_warehouse_id}}</td>
-                                <td class="px-6 py-4">{{$transfer->destination_warehouse_id}}</td>
+                                <td class="px-6 py-4">{{$transfer->sourceWarehouse->name}}</td>
+                                <td class="px-6 py-4">{{$transfer->destinationWarehouse->name}}</td>
                                 <td class="px-6 py-4">{{$transfer->status}}</td>
                                 <td class="px-6 py-4">{{'Discrepancias'}}</td>
                                 <td class="px-6 py-4">
