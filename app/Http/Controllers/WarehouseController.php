@@ -55,7 +55,7 @@ class WarehouseController extends Controller
             'zipCode' => 'required',
         ]);
 
-        Warehouse::create($validated + ['user_id' => Auth::user()->id] + ['contact_id' => 1]); /* 'contact_id' HARDCODED!!! */
+        Warehouse::create($validated + ['user_id' => Auth::user()->id]); /* 'contact_id' HARDCODED!!! */
 
         return redirect()->route('warehouses.index')->with('success-message', 'Almacén creado con exito');
     }
