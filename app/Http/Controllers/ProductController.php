@@ -21,11 +21,20 @@ class ProductController extends Controller
         // Get all the products from login user
         $products = Auth::user()->products;
 
-        return view('products',
-        [
-            // Send list of products to products view
-            'products' => $products,
-        ]);
+        // Get all the warehouses from login user
+        $warehouses = Auth::user()->warehouses;
+
+        if ($warehouses->count()) {
+            return view('products',
+                [
+                    // Send list of products to products view
+                    'products' => $products,
+                ]);
+        } else {
+            return redirect()->route('warehouses.index')->with('warning-message', 'Crea tu primer almacen para empezar');
+        }
+
+        
     }
 
     /**
@@ -137,6 +146,7 @@ class ProductController extends Controller
                 'product'=>$product,
                 'editing'=>$editing,
                 'categories' => $categories,
+                'warehouses' => $warehouses,
             ]
         );
     }
