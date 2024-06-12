@@ -49,13 +49,13 @@ class WarehouseController extends Controller
 
 
         $validated = $request->validate([
-            'name' => 'required',
-            'street' => 'required',
-            'streetNumber' => 'required',
-            'zipCode' => 'required',
+            'name' => 'required|string',
+            'street' => 'required|string',
+            'streetNumber' => 'required|numeric|min:1|max:32766',
+            'zipCode' => 'required|string',
         ]);
 
-        Warehouse::create($validated + ['user_id' => Auth::user()->id]); /* 'contact_id' HARDCODED!!! */
+        Warehouse::create($validated + ['user_id' => Auth::user()->id]);
 
         return redirect()->route('warehouses.index')->with('success-message', 'Almacén creado con exito');
     }
@@ -74,6 +74,16 @@ class WarehouseController extends Controller
     public function edit(Warehouse $warehouse)
     {
         //
+
+        $editing = true;
+
+        
+        return view('warehouse-details',
+            [
+                'warehouse'=>$warehouse,
+                'editing'=>$editing,
+            ]
+        );
     }
 
     /**
@@ -82,6 +92,23 @@ class WarehouseController extends Controller
     public function update(Request $request, Warehouse $warehouse)
     {
         //
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'street' => 'required|string',
+            'streetNumber' => 'required|numeric|min:1|max:32766',
+            'zipCode' => 'required|string',
+        ]);
+
+
+        $warehouse->name = $validated['name'];
+        $warehouse->street = $validated['street'];
+        $warehouse->streetNumber = $validated['streetNumber'];
+        $warehouse->zipCode = $validated['zipCode'];
+
+        $warehouse->save();
+
+        return redirect()->route('warehouses.index')->with('success-message', 'Almacen actualizado con exito');
+
     }
 
     /**
@@ -89,6 +116,10 @@ class WarehouseController extends Controller
      */
     public function destroy(Warehouse $warehouse)
     {
-        //
+        // Delete product data
+        $warehouse->delete();
+
+        // Redirect
+        return redirect()->route('warehouses.index')->with('success-message', 'Almacen eliminado con exito');
     }
 }
