@@ -55,10 +55,12 @@ class Product extends Model
             ->where('warehouse_id', $warehouse_id)
         ->get();
 
+        $tr = 0;
         foreach ($data as $value) {
             $tr = $value->quantityAvailable;
         }
         
         return $tr;
     }
+
 }
