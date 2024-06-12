@@ -25,59 +25,62 @@
                     </a>
                 </div>
             </div>
+            {{-- Table of products --}}
+
+                <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">Nombre</th>
+                                <th scope="col" class="px-6 py-3">Stock</th>
+                                <th scope="col" class="px-6 py-3">Precio</th>
+                                <th scope="col" class="px-6 py-3">sku</th>
+                                <th scope="col" class="px-6 py-3">Descripción</th>
+                                <th scope="col" class="px-6 py-3">Categoria</th>
+                                <th scope="col" class="px-6 py-3">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($products as $product)
+                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$product->name}}</th>
+                                    {{-- sum quantityAvailable --}}
+                                    <td class="px-6 py-4">
+                                        {{$product->warehouses->sum('pivot.quantityAvailable')}}
+                                    </td>
+                                    {{-- Price --}}
+                                    <td class="px-6 py-4">{{$product->price}}</td>
+                                    {{-- SKU --}}
+                                    <td class="px-6 py-4">{{$product->sku}}</td>
+                                    {{-- Description --}}
+                                    <td class="px-6 py-4">{{$product->description}}</td>
+                                    {{-- Category Name --}}
+                                    <td class="px-6 py-4">{{$product->category->name}}</td>
+
+                                    {{-- Actions --}}
+                                    <td class="px-6 py-4">
+                                        <a href="{{route('products.edit', $product->id)}}">
+                                            <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Editar</button>
+                                        </a>
+                                        {{-- <a href="{{route('products.destroy', $product->id)}}">Delete</a> --}}
+                                        <form action="{{route('products.destroy', $product->id)}}" method="POST">
+                                            @csrf
+                                            @method('delete')
+                                            <button onclick="return confirm('¿Estas seguro que deseas eliminar este producto?. Se borrara el historial de transferencias relacionado con este producto')" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Eliminar</button>
+                                        </form>
+                                    
+                                    
+                                    </td>
+                                </tr>               
+                            @endforeach
+                        </tbody>            
+                        
+                    </table>
+                </div>
         </div>
     </div>
 
-    {{-- Table of products --}}
-
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                    <th scope="col" class="px-6 py-3">Nombre</th>
-                    <th scope="col" class="px-6 py-3">Stock</th>
-                    <th scope="col" class="px-6 py-3">Precio</th>
-                    <th scope="col" class="px-6 py-3">sku</th>
-                    <th scope="col" class="px-6 py-3">Descripción</th>
-                    <th scope="col" class="px-6 py-3">Categoria</th>
-                    <th scope="col" class="px-6 py-3">Acción</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($products as $product)
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$product->name}}</th>
-                        {{-- sum quantityAvailable --}}
-                        <td class="px-6 py-4">
-                            {{$product->warehouses->sum('pivot.quantityAvailable')}}
-                        </td>
-                        {{-- Price --}}
-                        <td class="px-6 py-4">{{$product->price}}</td>
-                        {{-- SKU --}}
-                        <td class="px-6 py-4">{{$product->sku}}</td>
-                        {{-- Description --}}
-                        <td class="px-6 py-4">{{$product->description}}</td>
-                        {{-- Category Name --}}
-                        <td class="px-6 py-4">{{$product->category->name}}</td>
-
-                        {{-- Actions --}}
-                        <td class="px-6 py-4">
-                            <a href="{{route('products.edit', $product->id)}}">Editar</a>
-                            {{-- <a href="{{route('products.destroy', $product->id)}}">Delete</a> --}}
-                            <form action="{{route('products.destroy', $product->id)}}" method="POST">
-                                @csrf
-                                @method('delete')
-                                <button>Eliminar</button>
-                            </form>
-                        
-                        
-                        </td>
-                    </tr>               
-                @endforeach
-            </tbody>            
-            
-        </table>
-    </div>
+    
 
     
 </x-app-layout>

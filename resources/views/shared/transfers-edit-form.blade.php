@@ -15,7 +15,6 @@
                 <div class="p-6 text-gray-900">
                     <form action="{{route('transfers.store')}}" method="POST">
                         @csrf
-                        @dump($warehouses)
                         <label for="source_warehouse_id">Almacen de origen</label>
                         <select name="source_warehouse_id" id="source_warehouse_id">
                             @foreach ($warehouses as $warehouse)

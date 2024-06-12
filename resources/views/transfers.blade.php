@@ -28,7 +28,6 @@
                             <th scope="col" class="px-6 py-3">Origen</th>
                             <th scope="col" class="px-6 py-3">Destino</th>
                             <th scope="col" class="px-6 py-3">Estado</th>
-                            <th scope="col" class="px-6 py-3">Discrepancias</th>
                             <th scope="col" class="px-6 py-3">Acción</th>
                         </tr>
                     </thead>
@@ -39,12 +38,31 @@
                                 <td class="px-6 py-4">{{$transfer->sourceWarehouse->name}}</td>
                                 <td class="px-6 py-4">{{$transfer->destinationWarehouse->name}}</td>
                                 <td class="px-6 py-4">{{$transfer->status}}</td>
-                                <td class="px-6 py-4">{{'Discrepancias'}}</td>
                                 <td class="px-6 py-4">
                                     <a href="{{route('transfers.show', $transfer->id)}}">
-                                        Ver
+                                        @if ($transfer->status == 'iniciado')
+                                        <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                            {{'Enviar'}}
+                                        </button>
+                                            
+
+                                        @else
+                                        <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                            {{'Ver'}}
+                                        </button>
+                                        @endif
+                                        
                                     </a>
-                                
+                                    @if ($transfer->status !== 'enviado')
+                                        <form action="{{route('transfers.destroy', $transfer->id)}}" method="POST">
+                                            @csrf
+                                            @method('delete')
+                                            <button onclick="return confirm('¿Estas seguro que deseas eliminar esta transferencia?.')" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                                                Eliminar
+                                            </button>
+                                        </form>
+                                    @endif
+                                    
                                 
                                 </td>
                             </tr>               

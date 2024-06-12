@@ -6,6 +6,14 @@
     </div>
 @endif
 
+@if (session()->has('warning-message'))
+
+    <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4" role="alert">
+        <p class="font-bold">Advertencia</p>
+        <p>{{ session('warning-message') }}</p>
+    </div>
+@endif
+
 @if ($errors->any())
 
 <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
