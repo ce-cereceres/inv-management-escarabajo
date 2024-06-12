@@ -149,6 +149,10 @@ class TransferController extends Controller
      */
     public function destroy(Transfer $transfer)
     {
+        if ($transfer->user_id !== Auth::user()->id) {
+            abort(403, 'Unauthorized');
+        }
+        
         // Delete product data
         $transfer->delete();
 

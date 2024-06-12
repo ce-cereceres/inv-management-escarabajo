@@ -5,9 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProductRequest;
 use App\Models\Category;
 use App\Models\Product;
-use App\Models\Stock;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;/*  */
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -121,6 +120,9 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         //
+        if ($product->user_id !== Auth::user()->id) {
+            abort(403, 'Unauthorized');
+        }
 
         return view('products-details',
             [
@@ -135,6 +137,10 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         //
+        if ($product->user_id !== Auth::user()->id) {
+            abort(403, 'Unauthorized');
+        }
+
         $editing = true;
         $categories = Category::all();
 
@@ -156,6 +162,9 @@ class ProductController extends Controller
      */
     public function update(ProductRequest $request, Product $product)
     {
+        if ($product->user_id !== Auth::user()->id) {
+            abort(403, 'Unauthorized');
+        }
         // Product Details
         $productInfo = $request->safe()->except(['warehouses']);
 
@@ -202,6 +211,9 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         //
+        if ($product->user_id !== Auth::user()->id) {
+            abort(403, 'Unauthorized');
+        }
 
         // Delete warehouses inventory data
         $product->warehouses()->detach();

@@ -74,6 +74,9 @@ class WarehouseController extends Controller
     public function edit(Warehouse $warehouse)
     {
         //
+        if ($warehouse->user_id !== Auth::user()->id) {
+            abort(403, 'Unauthorized');
+        }
 
         $editing = true;
 
@@ -92,6 +95,11 @@ class WarehouseController extends Controller
     public function update(Request $request, Warehouse $warehouse)
     {
         //
+
+        if ($warehouse->user_id !== Auth::user()->id) {
+            abort(403, 'Unauthorized');
+        }
+
         $validated = $request->validate([
             'name' => 'required|string',
             'street' => 'required|string',
@@ -116,6 +124,10 @@ class WarehouseController extends Controller
      */
     public function destroy(Warehouse $warehouse)
     {
+        if ($warehouse->user_id !== Auth::user()->id) {
+            abort(403, 'Unauthorized');
+        }
+        
         // Delete product data
         $warehouse->delete();
 
