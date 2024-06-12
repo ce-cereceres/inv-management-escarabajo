@@ -28,11 +28,11 @@ class ProductRequest extends FormRequest
       
         // Rules
         $rules = [
-            'name' => 'required',
-            'price' => 'required',
-            'sku' => 'required',
-            'description' => 'required',
-            'category_id' => 'required',
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric|between: 0.01, 4294967294.99',
+            'sku' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+            'category_id' => 'required|numeric|exists:categories,id',
             'warehouses' => 'required',
             'warehouses.*.id' => [
                 'required',
@@ -40,7 +40,7 @@ class ProductRequest extends FormRequest
                     $query->where('user_id', $loggedInUserId);
                 }),
             ],
-            'warehouse.*.quantityAvailable' => 'required',
+            'warehouses.*.quantityAvailable' => 'required|numeric|min:0|max:4294967294',
         ];
 
 

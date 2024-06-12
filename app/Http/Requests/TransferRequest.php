@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class TransferRequest extends FormRequest
 {
@@ -21,14 +23,15 @@ class TransferRequest extends FormRequest
      */
     public function rules(): array
     {
+        $loggedInUserId = Auth::user()->id;
         return [
             //
-            'source_warehouse_id' => 'required',
-            'destination_warehouse_id' => 'required',
+            'source_warehouse_id' => 'required|exists:warehouses,id,user_id,'.$loggedInUserId,
+            'destination_warehouse_id' => 'required|exists:warehouses,id,user_id,'.$loggedInUserId,
             'product' => 'required',
-            'product.*' => 'required|distinct:strict',
+            'product.*' => 'required|distinct:strict|exists:products,id,user_id,'.$loggedInUserId,
             'quantity' => 'required',
-            'quantity.*' => 'required',
+            'quantity.*' => 'required|numeric|min:1',
         ];
     }
 }
