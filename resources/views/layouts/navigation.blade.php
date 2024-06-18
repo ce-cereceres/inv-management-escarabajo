@@ -4,11 +4,6 @@
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
-                    </a>
-                </div>
 
                 <!-- Navigation Links -->
 
@@ -92,6 +87,18 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+            
+            <x-responsive-nav-link :href="route('products.index')" :active="request()->routeIs('products.index')">
+                {{ __('Productos') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('warehouses.index')" :active="request()->routeIs('warehouses.index')">
+                {{ __('Almacenes') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('transfers.index')" :active="request()->routeIs('transfers.index')">
+                {{ __('Transferencias') }}
             </x-responsive-nav-link>
         </div>
 
