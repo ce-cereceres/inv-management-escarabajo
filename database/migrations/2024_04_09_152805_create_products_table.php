@@ -19,6 +19,7 @@ return new class extends Migration
             $table->decimal('price', total: 65, places: 2);
             $table->string('sku');
             $table->string('description');
+            $table->string('barcode')->nullable();
             $table->timestamps();
         });
     }

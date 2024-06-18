@@ -41,6 +41,7 @@ class ProductRequest extends FormRequest
                 }),
             ],
             'warehouses.*.quantityAvailable' => 'required|numeric|min:0|max:4294967294',
+            'barcode' => 'string|nullable'
         ];
 
 

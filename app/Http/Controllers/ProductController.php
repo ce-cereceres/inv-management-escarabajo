@@ -7,6 +7,8 @@ use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Milon\Barcode\DNS1D;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ProductController extends Controller
 {
@@ -102,6 +104,7 @@ class ProductController extends Controller
         $product->description = $productInfo['description'];
         $product->category_id = $productInfo['category_id'];
         $product->user_id = Auth::user()->id;
+        $product->barcode = $productInfo['barcode'];
         $product->save(); 
 
         // Create pivot table product_warehouse
@@ -196,6 +199,7 @@ class ProductController extends Controller
         $product->sku = $productInfo['sku'];
         $product->description = $productInfo['description'];
         $product->category_id = $productInfo['category_id'];
+        $product->barcode = $productInfo['barcode'];
 
         $product->save();
 
@@ -223,5 +227,15 @@ class ProductController extends Controller
 
         // Redirect
         return redirect()->route('products.index')->with('success-message', 'Producto eliminado con exito');
+    }
+
+    public function barcode(Product $product)
+    {
+        if ($product->user_id !== Auth::user()->id) {
+            abort(403, 'Unauthorized');
+        }
+        /* return view('barcode')->with('product', $product); */
+        $pdf = Pdf::loadView('barcode', compact('product'))->setPaper('a4', 'portrait');
+        return $pdf->stream();
     }
 }

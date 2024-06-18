@@ -180,6 +180,9 @@ class TransferController extends Controller
 
             // Obtener la resta del almacen de origen y la cantidad a enviar
             $subtractQuantity = $product->getTransferData($product->id, $transfer->source_warehouse_id) - $product->pivot->quantity;
+            if ($subtractQuantity < 0) {
+                return redirect()->route('transfers.index')->with('warning-message', 'Cantidad de producto insuficiente');
+            }
 
             // Obtener la suma del almacen de destino y la cantidad a enviar
             $addQuantity = $product->getTransferData($product->id, $transfer->destination_warehouse_id) + $product->pivot->quantity;

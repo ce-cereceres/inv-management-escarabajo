@@ -79,6 +79,9 @@ Route::middleware('auth')->group(function () {
 
     // Destroy
     Route::delete('/transfers/{transfer}', [TransferController::class, 'destroy'])->name('transfers.destroy');
+
+    /* BARCODES */
+    Route::get('/barcode/{product}', [ProductController::class, 'barcode'])->name('barcode');
 });
 
 
