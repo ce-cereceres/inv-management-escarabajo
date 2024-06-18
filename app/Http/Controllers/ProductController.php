@@ -234,8 +234,8 @@ class ProductController extends Controller
         if ($product->user_id !== Auth::user()->id) {
             abort(403, 'Unauthorized');
         }
-        return view('barcode')->with('product', $product);
-        /* $pdf = Pdf::loadView('barcode', compact('product'))->setPaper('a4', 'portrait');
-        return $pdf->stream(); */
+        /* return view('barcode')->with('product', $product); */
+        $pdf = Pdf::loadView('barcode', compact('product'))->setPaper('a4', 'portrait');
+        return $pdf->stream();
     }
 }
